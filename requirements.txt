@@ -1,0 +1,16 @@
+
+uvicorn[standard]
+gunicorn
+psycopg2-binary
+sqlalchemy
+redis
+python-dotenv
+openai
+pgvector
+passlib[bcrypt]
+python-jose
+python-multipart
+fastapi>=0.111     
+pydantic>=2.6
+pydantic-settings>=2.2
+
