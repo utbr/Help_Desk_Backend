@@ -1,0 +1,35 @@
+services:
+
+  helpdeskdb:
+    image: ankane/pgvector:latest
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: helpdeskdb
+    ports:
+      - "5434:5432"
+    volumes:
+      - helpdeskdb_data:/var/lib/postgresql/data
+
+  backend:
+    build: .
+    env_file:
+      - .env
+    depends_on:
+      - helpdeskdb
+      - redis
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://admin:admin123@helpdeskdb:5432/helpdeskdb
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      OPENAI_MODEL: ${OPENAI_MODEL}
+
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6380:6379"
+
+volumes:
+  helpdeskdb_data:
